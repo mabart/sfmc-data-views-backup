@@ -54,8 +54,8 @@ function initializeConfig() {
 		CategoryID: config.folders.deFolder,
 		Fields : [
 			{ Name:'GUID', FieldType:'Text', MaxLength:50, IsPrimaryKey:true, IsRequired: true},
-			{ Name:'AccountID', FieldType:'Number' },
-			{ Name:'OYBAccountID', FieldType:'Number', IsRequired: true, IsRequired: true },
+			{ Name:'AccountID', FieldType:'Number', IsRequired: true},
+			{ Name:'OYBAccountID', FieldType:'Number'},
 			{ Name:'JobID', FieldType:'Text', MaxLength:50, IsRequired: true },
 			{ Name:'ListID', FieldType:'Number', IsRequired: true },
 			{ Name:'BatchID', FieldType:'Text', MaxLength:50, IsRequired: true },
