@@ -56,7 +56,12 @@
         }
     
         if (Platform.Request.GetFormField('formName') == 'dataViewsBacklog') {
-            runConfigDataViewsBacklogInstall();
+            try {
+                runConfigDataViewsBacklogInstall();
+            }
+            catch(e) {
+                Write(Stingify(e));
+            }
         }
     
         function runConfigDataViewsBacklogInstall() {
@@ -797,7 +802,8 @@
     
         function buildHtmlBusinessUnitPicker() {
             var output = '';
-            for (var mid in getAllBusinessUnits()) {
+            var businessUnits = getAllBusinessUnits();
+            for (var mid in businessUnits) {
                 output += '<div class="mb-3">';
                 output += '    <div class="form-check">';
                 output += '        <input class="form-check-input" type="checkbox" value="' + mid + '" id="businessUnit' + mid + '" name="businessUnit' + mid +'">';
