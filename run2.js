@@ -661,7 +661,7 @@
             config.automationDefinition.CustomerKey = config.prefix + 'AUTOMATION' + config.mid + config.ver;
             config.automationDefinition.CategoryID = config.folders.automationFolder;
             config.automationDefinition.AutomationType = 'scheduled';
-            /*config.automationDefinition.AutomationTasks = [
+            config.automationDefinition.AutomationTasks = [
                 {
                     Description: 'Stores run Watermark',
                     Activities: [
@@ -670,7 +670,7 @@
                             Name: config.queryDefinitions.RunWatermark.Name
                         }
                     ]
-                },
+                }/*,
                 {
                     Description: 'Sent, Click, Open, Bounce',
                     Activities: [
@@ -737,8 +737,8 @@
                             Name: config.queryDefinitions.SMSMessageTracking.Name
                         }
                     ]
-                }
-            ];*/
+                }*/
+            ];
             return config;
         }
     
