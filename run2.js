@@ -44,10 +44,10 @@
     
     
         // Copyright:   Mateusz Bartkowiak
-        // Author:	  Mateusz Bartkowiak, https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/
-        // Since:	   2021
-        // Version:	 0.0.1
-        // License:	 MIT
+        // Author:      Mateusz Bartkowiak, https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/
+        // Since:       2021
+        // Version:     0.0.1
+        // License:     MIT
         Platform.Load('Core', '1.1.5');
         var proxy = new Script.Util.WSProxy();
     
@@ -66,13 +66,15 @@
     
         function runConfigDataViewsBacklogInstall() {
             var businessUnitsSelected = getFormSelectedBusinessUnits();
+
+            Write(Stringify(businessUnitsSelected));
     
-            if (businessUnitsSelected.length > 0) {
+            /*if (businessUnitsSelected.length > 0) {
                 proxy.setClientId({ID: businessUnitsSelected[i]});
                 var cnf = initializeConfigDataViewsBacklog(businessUnitsSelected[i]);
                 createDataExtensionsFromConfig(cnf);
                 createQueriesFromConfig(cnf);
-            }
+            }*/
         }
     
         function initializeConfigDataViewsBacklog(bu) {
