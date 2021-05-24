@@ -65,10 +65,7 @@
         }
     
         function runConfigDataViewsBacklogInstall() {
-            var businessUnitsSelected = getFormSelectedBusinessUnits();
-
-            Write(Stringify(businessUnitsSelected));
-    
+            var businessUnitsSelected = getFormSelectedBusinessUnits();    
             if (businessUnitsSelected.length > 0) {
                 for (var i = 0; i < businessUnitsSelected.length; i ++) {
                     proxy.setClientId({ID: businessUnitsSelected[i]});
@@ -691,7 +688,7 @@
             });
     
             if (lookup.Results.length == 1 ) {
-                Write('<br>Folder retrieved: ' + name + ', type: ' + type);
+                Write('<br><span class="badge bg-primary">Folder retrieved: ' + name + ', type: ' + type + '</span>');
                 return lookup.Results[0].ID
             }
     
@@ -710,11 +707,11 @@
                 });
     
                 if (newFolder.Results[0].NewID) {
-                    Write('<br>Folder created: ' + name + ', type: ' + type);
+                    Write('<br><span class="badge bg-success">Folder created: ' + name + ', type: ' + type + '</span>');
                     return newFolder.Results[0].NewID;
                 }
                 else {
-                    Write('<br>Folder failed to create: ' + name + ', type: ' + type);
+                    Write('<br><span class="badge bg-danger">Folder failed to create: ' + name + ', type: ' + type + '</span>');
                 }
             }
         }
@@ -730,15 +727,14 @@
                     if (definition.Name.indexOf('Watermark') > -1 && type == 'DataExtension') {
                         addWatermarkRecord(definition.CustomerKey);
                     }
-                    Write('<br>' + type + ' created: ' + definition.Name);
+                    Write('<br><span class="badge bg-success">' + type + ' created: ' + definition.Name + '</span>');
                 }
                 else {
-                    Write(Stringify(obj));
-                    Write('<br>' + type + ' failed to create: ' + definition.Name);
+                    Write('<br><span class="badge bg-danger">' + type + ' failed to create: ' + definition.Name + '</span>');
                 }
             }
             else {
-                Write('<br>' + type + ' already exists: ' + definition.Name);
+                Write('<br><span class="badge bg-warning text-dark">' + type + ' already exists: ' + definition.Name + '</span>');
             }
         }
     
@@ -749,7 +745,7 @@
                     createObjectFromDefinition(config.deDefinitions[key], 'DataExtension');
                 }
                 catch(e) {
-                    Write('<br>DataExtension failed to create: ' + config.deDefinitions[key].Name + ', error: ' + Stringify(e));
+                    Write('<br><span class="badge bg-danger">DataExtension failed to create: ' + config.deDefinitions[key].Name + ', error: </span>' + Stringify(e) + '<br>');
                 }
             }
         }
@@ -760,7 +756,7 @@
                     createObjectFromDefinition(config.queryDefinitions[key], 'QueryDefinition');
                 }
                 catch(e) {
-                    Write('<br>QueryDefinition failed to create: ' + config.deDefinitions[key].Name + ', error: ' + Stringify(e));
+                    Write('<br><span class="badge bg-danger">QueryDefinition failed to create: ' + config.deDefinitions[key].Name + ', error: </span>' + Stringify(e) + '<br>');
                 }
             }
         }
