@@ -840,7 +840,7 @@
             return output;
         }
     
-        if (Platform.Request.GetFormField('formName')) {
+        if (!Platform.Request.GetFormField('formName')) {
         </script>
         <!--ACCORDION START-->
         <div class="accordion" id="accordionExample">
