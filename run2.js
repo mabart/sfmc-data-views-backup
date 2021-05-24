@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>SFMC Custom Scripts Installer 4</h1>
+        <h1>SFMC Custom Scripts Installer</h1>
         <p>Created by <a href="https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/" target="_blank">Mateusz Bartkowiak</a>. Reach out with bugs and requests.</p>
         <script runat="server">
         //  NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
@@ -688,7 +688,7 @@
             });
     
             if (lookup.Results.length == 1 ) {
-                Write('<br><span class="badge bg-primary">Folder retrieved: ' + name + ', type: ' + type + '</span>');
+                Write('<br/><span class="badge bg-primary">Folder retrieved: ' + name + ', type: ' + type + '</span>');
                 return lookup.Results[0].ID
             }
     
@@ -707,11 +707,11 @@
                 });
     
                 if (newFolder.Results[0].NewID) {
-                    Write('<br><span class="badge bg-success">Folder created: ' + name + ', type: ' + type + '</span>');
+                    Write('<br/><span class="badge bg-success">Folder created: ' + name + ', type: ' + type + '</span>');
                     return newFolder.Results[0].NewID;
                 }
                 else {
-                    Write('<br><span class="badge bg-danger">Folder failed to create: ' + name + ', type: ' + type + '</span>');
+                    Write('<br/><span class="badge bg-danger">Folder failed to create: ' + name + ', type: ' + type + '</span>');
                 }
             }
         }
@@ -727,14 +727,14 @@
                     if (definition.Name.indexOf('Watermark') > -1 && type == 'DataExtension') {
                         addWatermarkRecord(definition.CustomerKey);
                     }
-                    Write('<br><span class="badge bg-success">' + type + ' created: ' + definition.Name + '</span>');
+                    Write('<br/><span class="badge bg-success">' + type + ' created: ' + definition.Name + '</span>');
                 }
                 else {
-                    Write('<br><span class="badge bg-danger">' + type + ' failed to create: ' + definition.Name + '</span>');
+                    Write('<br/><span class="badge bg-danger">' + type + ' failed to create: ' + definition.Name + '</span>');
                 }
             }
             else {
-                Write('<br><span class="badge bg-warning text-dark">' + type + ' already exists: ' + definition.Name + '</span>');
+                Write('<br/><span class="badge bg-warning text-dark">' + type + ' already exists: ' + definition.Name + '</span>');
             }
         }
     
@@ -745,7 +745,7 @@
                     createObjectFromDefinition(config.deDefinitions[key], 'DataExtension');
                 }
                 catch(e) {
-                    Write('<br><span class="badge bg-danger">DataExtension failed to create: ' + config.deDefinitions[key].Name + ', error: </span>' + Stringify(e) + '<br>');
+                    Write('<br/><span class="badge bg-danger">DataExtension failed to create: ' + config.deDefinitions[key].Name + ', error: </span>' + Stringify(e) + '<br/>');
                 }
             }
         }
@@ -756,7 +756,7 @@
                     createObjectFromDefinition(config.queryDefinitions[key], 'QueryDefinition');
                 }
                 catch(e) {
-                    Write('<br><span class="badge bg-danger">QueryDefinition failed to create: ' + config.deDefinitions[key].Name + ', error: </span>' + Stringify(e) + '<br>');
+                    Write('<br/><span class="badge bg-danger">QueryDefinition failed to create: ' + config.deDefinitions[key].Name + ', error: </span>' + Stringify(e) + '<br/>');
                 }
             }
         }
