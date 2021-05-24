@@ -75,7 +75,7 @@
                     createQueriesFromConfig(cnf);
                 }
 
-                createAutomationFromDefinition(cnf.automationDefinition);
+                //createAutomationFromDefinition(cnf.automationDefinition);
             }
         }
     
