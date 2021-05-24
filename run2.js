@@ -839,8 +839,6 @@
     
             return output;
         }
-    
-        if (!Platform.Request.GetFormField('formName')) {
         </script>
         <!--ACCORDION START-->
         <div class="accordion" id="accordionExample">
@@ -919,15 +917,8 @@
             </div>
         </div>
         <!--ACCORDION END-->
-        <script runat="server">
-        }
-        else {
-        </script>
         <!--OUTPUT START-->
         <!--OUTPUT END-->
-        <script runat="server">
-        }
-        </script>
     </div>
 </body>
 </html>
