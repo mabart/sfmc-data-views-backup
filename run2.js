@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>SFMC Custom Scripts Install</h1>
+        <h1>SFMC Custom Scripts Installer</h1>
         <p>Created by <a href="https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/" target="_blank">Mateusz Bartkowiak</a>. Reach out with bugs and requests.</p>
         <script runat="server">
         //  NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
@@ -832,7 +832,7 @@
         function createAutomationFromDefinition(definition) {
             for (var i = 0; i < definition.AutomationTasks.length; i ++) {
                 for (var j = 0; j < definition.AutomationTasks[i].Activities.length; j ++) {
-                    definition.AutomationTasks[i].Activities[j].ObjectID = retrievableObjectData[definition.AutomationTasks[i].Activities[j].Name + 'QueryDefinition'];
+                    //definition.AutomationTasks[i].Activities[j].ObjectID = retrievableObjectData[definition.AutomationTasks[i].Activities[j].Name + 'QueryDefinition'];
                     definition.AutomationTasks[i].Activities[j].ActivityObject.ObjectID = retrievableObjectData[definition.AutomationTasks[i].Activities[j].Name + 'QueryDefinition'];
                 }
             }
