@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>SFMC Custom Scripts Installer 3</h1>
+        <h1>SFMC Custom Scripts Installer 4</h1>
         <p>Created by <a href="https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/" target="_blank">Mateusz Bartkowiak</a>. Reach out with bugs and requests.</p>
         <script runat="server">
         //  NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
@@ -70,13 +70,12 @@
             Write(Stringify(businessUnitsSelected));
     
             if (businessUnitsSelected.length > 0) {
-                proxy.setClientId({ID: businessUnitsSelected[i]});
-
-                var cnf = initializeConfigDataViewsBacklog(businessUnitsSelected[i]);
-
-                Write(Stringify(cnf));
-                /*createDataExtensionsFromConfig(cnf);
-                createQueriesFromConfig(cnf);*/
+                for (var i = 0; i < businessUnitsSelected.length; i ++) {
+                    proxy.setClientId({ID: businessUnitsSelected[i]});
+                    var cnf = initializeConfigDataViewsBacklog(businessUnitsSelected[i]);
+                    createDataExtensionsFromConfig(cnf);
+                    createQueriesFromConfig(cnf);
+                }
             }
         }
     
