@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>SFMC Custom Scripts Installer</h1>
+        <h1>SFMC Custom Scripts Installer 12</h1>
         <p>Created by <a href="https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/" target="_blank">Mateusz Bartkowiak</a>. Reach out with bugs and requests.</p>
         <script runat="server">
         //  NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
@@ -75,7 +75,12 @@
                     createQueriesFromConfig(cnf);
                 }
 
-                //createAutomationFromDefinition(cnf.automationDefinition);
+                try {
+                    createAutomationFromDefinition(cnf.automationDefinition);
+                }
+                catch(e) {
+                    Write(Stringify(e));
+                }
             }
         }
     
@@ -801,7 +806,11 @@
     
     
         function createObjectFromDefinition(definition, type) {
-            if (!checkIfObjectExists(definition.Name, type) || type == 'Automation') {
+            var exists = true;
+            if (type != 'Automation') {
+                exists = checkIfObjectExists(definition.Name, type)
+            }
+            if (!exists || type == 'Automation') {
     
                 var obj = proxy.createItem(type, definition);
     
