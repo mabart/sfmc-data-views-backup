@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>SFMC Custom Scripts Installer</h1>
+        <h1>SFMC Custom Scripts Install</h1>
         <p>Created by <a href="https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/" target="_blank">Mateusz Bartkowiak</a>. Reach out with bugs and requests.</p>
         <script runat="server">
         //  NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
@@ -821,8 +821,7 @@
                     Write('<br/><span class="badge bg-success">' + type + ' created: ' + definition.Name + '</span>');
                 }
                 else {
-                    Write('<br/><span class="badge bg-danger">' + type + ' failed to create: ' + definition.Name + '</span>');
-                    Write(Stringify(obj));
+                    Write('<br/><span class="badge bg-danger">' + type + ' failed to create: ' + definition.Name + '</span><pre>' + Stringify(obj) + '</pre>');
                 }
             }
             else {
@@ -849,7 +848,7 @@
                     createObjectFromDefinition(config.deDefinitions[key], 'DataExtension');
                 }
                 catch(e) {
-                    Write('<br/><span class="badge bg-danger">DataExtension failed to create: ' + config.deDefinitions[key].Name + ', error: </span>' + Stringify(e) + '<br/>');
+                    Write('<br/><span class="badge bg-danger">DataExtension failed to create: ' + config.deDefinitions[key].Name + ', error: </span><pre>' + Stringify(e) + '</pre><br/>');
                 }
             }
         }
@@ -860,7 +859,7 @@
                     createObjectFromDefinition(config.queryDefinitions[key], 'QueryDefinition');
                 }
                 catch(e) {
-                    Write('<br/><span class="badge bg-danger">QueryDefinition failed to create: ' + config.deDefinitions[key].Name + ', error: </span>' + Stringify(e) + '<br/>');
+                    Write('<br/><span class="badge bg-danger">QueryDefinition failed to create: ' + config.deDefinitions[key].Name + ', error: </span><pre>' + Stringify(e) + '</pre><br/>');
                 }
             }
         }
