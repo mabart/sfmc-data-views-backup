@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>SFMC Custom Scripts Installer 12 - taskName</h1>
+        <h1>SFMC Custom Scripts Installer 12 - taskName and ActivityObjectName</h1>
         <p>Created by <a href="https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/" target="_blank">Mateusz Bartkowiak</a>. Reach out with bugs and requests.</p>
         <script runat="server">
         //  NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
@@ -674,7 +674,7 @@
                     Activities: [
                         { 
                             ActivityObject : {
-                                Name: config.queryDefinitions.RunWatermark.Name,
+                                /*Name: config.queryDefinitions.RunWatermark.Name,*/
                                 CustomerKey: config.queryDefinitions.RunWatermark.CustomerKey
                             }, 
                             Name: config.queryDefinitions.RunWatermark.Name
