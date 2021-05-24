@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>SFMC Custom Scripts Installer</h1>
+        <h1>SFMC Custom Scripts Installer 2</h1>
         <p>Created by <a href="https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/" target="_blank">Mateusz Bartkowiak</a>. Reach out with bugs and requests.</p>
         <script runat="server">
         //  NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
@@ -73,19 +73,20 @@
                     createDataExtensionsFromConfig(cnf);
                     createQueriesFromConfig(cnf);
                 }
+                createObjectFromDefinition(cnf.automationDefinition, 'Automation');
             }
         }
     
         function initializeConfigDataViewsBacklog(bu) {
             var config = {};
             config.ver = '_0_0_1';
-            config.mid = bu;
+            config.mid = '_' + bu;
             config.prefix = 'DV_';
     
             config.folders = {};
             config.folders.deFolder = getOrCreateFolder(config.prefix + 'DE' + config.mid + config.ver, 'dataextension');
             config.folders.queryFolder = getOrCreateFolder(config.prefix + 'QUERY' + config.mid + config.ver, 'queryactivity');
-            //config.folders.automationFolder = getOrCreateFolder(config.prefix + 'AUTOMATIONS' + config.mid + config.ver, 'automations');
+            config.folders.automationFolder = getOrCreateFolder(config.prefix + 'AUTOMATIONS' + config.mid + config.ver, 'automations');
     
             config.deDefinitions = {};
             config.deDefinitions.Bounce = {
@@ -655,12 +656,89 @@
                 QueryText: 'SELECT DISTINCT\nNEWID() as GUID,\nGETDATE() as RunTimestamp,\nGETUTCDATE() as RunTimestampUTC'
             }
     
-            //config.automationDefinition = {};
-            //config.automationDefinition.Name = config.prefix + 'AUTOMATION' + config.mid + config.ver;
-            //config.automationDefinition.CustomerKey = config.prefix + 'AUTOMATION' + config.mid + config.ver;
-            //config.automationDefinition.CategoryID = config.folders.automationFolder;
-            //config.automationDefinition.AutomationType = 'scheduled';
-            // AutomationSource, AutomationTasks - AutomationTask[], Schedule
+            config.automationDefinition = {};
+            config.automationDefinition.Name = config.prefix + 'AUTOMATION' + config.mid + config.ver;
+            config.automationDefinition.CustomerKey = config.prefix + 'AUTOMATION' + config.mid + config.ver;
+            config.automationDefinition.CategoryID = config.folders.automationFolder;
+            config.automationDefinition.AutomationType = 'scheduled';
+            config.automationDefinition.AutomationTasks = [
+                {
+                    Description: 'Stores run Watermark',
+                    Activities: [
+                        { 
+                            ActivityObject : config.queryDefinitions.RunWatermark, 
+                            Name: config.queryDefinitions.RunWatermark.Name
+                        }
+                    ]
+                },
+                {
+                    Description: 'Sent, Click, Open, Bounce',
+                    Activities: [
+                        { 
+                            ActivityObject : config.queryDefinitions.Sent, 
+                            Name: config.queryDefinitions.Sent.Name
+                        },
+                        { 
+                            ActivityObject : config.queryDefinitions.Click, 
+                            Name: config.queryDefinitions.Click.Name
+                        },
+                        { 
+                            ActivityObject : config.queryDefinitions.Open, 
+                            Name: config.queryDefinitions.Open.Name
+                        },
+                        { 
+                            ActivityObject : config.queryDefinitions.Bounce, 
+                            Name: config.queryDefinitions.Bounce.Name
+                        }
+                    ]
+                },
+                {
+                    Description: 'Complaint, Unsubscribes, Subscribers, ListSubscribers, BusinessUnitUnsubscribes',
+                    Activities: [
+                        { 
+                            ActivityObject : config.queryDefinitions.Complaint, 
+                            Name: config.queryDefinitions.Complaint.Name
+                        },
+                        { 
+                            ActivityObject : config.queryDefinitions.Unsubscribe, 
+                            Name: config.queryDefinitions.Unsubscribe.Name
+                        },
+                        { 
+                            ActivityObject : config.queryDefinitions.Subscribers, 
+                            Name: config.queryDefinitions.Subscribers.Name
+                        },
+                        { 
+                            ActivityObject : config.queryDefinitions.ListSubscribers, 
+                            Name: config.queryDefinitions.ListSubscribers.Name
+                        },
+                        { 
+                            ActivityObject : config.queryDefinitions.BusinessUnitUnsubscribes, 
+                            Name: config.queryDefinitions.BusinessUnitUnsubscribes.Name
+                        }
+                    ]
+                },
+                {
+                    Description: 'Job, Journey, JourneyActivit, SMSMessageTracking',
+                    Activities: [
+                        { 
+                            ActivityObject : config.queryDefinitions.Job, 
+                            Name: config.queryDefinitions.Job.Name
+                        },
+                        { 
+                            ActivityObject : config.queryDefinitions.Journey, 
+                            Name: config.queryDefinitions.Journey.Name
+                        },
+                        { 
+                            ActivityObject : config.queryDefinitions.JourneyActivity, 
+                            Name: config.queryDefinitions.JourneyActivity.Name
+                        },
+                        { 
+                            ActivityObject : config.queryDefinitions.SMSMessageTracking, 
+                            Name: config.queryDefinitions.SMSMessageTracking.Name
+                        }
+                    ]
+                }
+            ];
             return config;
         }
     
