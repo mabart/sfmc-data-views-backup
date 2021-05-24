@@ -839,7 +839,8 @@
     
             return output;
         }
-    
+        Write('HERE');
+        Write(Platform.Request.GetFormField('formName'));
         if (!Platform.Request.GetFormField('formName')) {
         </script>
         <!--ACCORDION START-->
