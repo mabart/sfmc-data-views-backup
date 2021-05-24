@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>SFMC Custom Scripts Installer 6</h1>
+        <h1>SFMC Custom Scripts Installer</h1>
         <p>Created by <a href="https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/" target="_blank">Mateusz Bartkowiak</a>. Reach out with bugs and requests.</p>
         <script runat="server">
         //  NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
@@ -829,27 +829,8 @@
                 }
             }
 
-            Write(Stringify(definition));
+            createObjectFromDefinition(definition, 'Automation');
 
-            /*
-
-            config.automationDefinition.AutomationTasks = [
-                {
-                    Name: 'Stores run Watermark',
-                    Activities: [
-                        { 
-                            ActivityObject : {
-                                Name: config.queryDefinitions.RunWatermark.Name,
-                                CustomerKey: config.queryDefinitions.RunWatermark.CustomerKey
-                            }, 
-                            Name: config.queryDefinitions.RunWatermark.Name
-                        }
-                    ]
-                }
-
-
-
-            */
         }
     
     
