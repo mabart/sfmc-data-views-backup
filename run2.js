@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>SFMC Custom Scripts Installer 5</h1>
+        <h1>SFMC Custom Scripts Installer 6</h1>
         <p>Created by <a href="https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/" target="_blank">Mateusz Bartkowiak</a>. Reach out with bugs and requests.</p>
         <script runat="server">
         //  NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
@@ -75,8 +75,7 @@
                     createQueriesFromConfig(cnf);
                 }
 
-                Write(Stringify(retrievableObjectData));
-                //createObjectFromDefinition(cnf.automationDefinition, 'Automation');
+                createAutomationFromDefinition(cnf.automationDefinition);
             }
         }
     
@@ -666,7 +665,7 @@
             config.automationDefinition.AutomationType = 'scheduled';
             config.automationDefinition.AutomationTasks = [
                 {
-                    Description: 'Stores run Watermark',
+                    Name: 'Stores run Watermark',
                     Activities: [
                         { 
                             ActivityObject : {
@@ -823,7 +822,34 @@
         }
 
         function createAutomationFromDefinition(definition) {
+            for (var i = 0; i < definition.AutomationTasks.length; i ++) {
+                for (var j = 0; j < definition.AutomationTasks[i].Activities.length; j ++) {
+                    definition.AutomationTasks[i].Activities[j].ObjectID = retrievableObjectData[definition.AutomationTasks[i].Activities[j].Name + 'QueryDefinition'];
+                    definition.AutomationTasks[i].Activities[j].ActivityObject.ObjectID = retrievableObjectData[definition.AutomationTasks[i].Activities[j].Name + 'QueryDefinition'];
+                }
+            }
 
+            Write(Stringify(definition));
+
+            /*
+
+            config.automationDefinition.AutomationTasks = [
+                {
+                    Name: 'Stores run Watermark',
+                    Activities: [
+                        { 
+                            ActivityObject : {
+                                Name: config.queryDefinitions.RunWatermark.Name,
+                                CustomerKey: config.queryDefinitions.RunWatermark.CustomerKey
+                            }, 
+                            Name: config.queryDefinitions.RunWatermark.Name
+                        }
+                    ]
+                }
+
+
+
+            */
         }
     
     
@@ -864,7 +890,7 @@
     
             if (lookup.Results.length > 0) {
 
-                retrievableObjectData[name] = lookup.Results[0].ObjectID;
+                retrievableObjectData[name + type] = lookup.Results[0].ObjectID;
                 output = true;
             }
     
