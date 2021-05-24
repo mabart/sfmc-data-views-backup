@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>SFMC Custom Scripts Installer</h1>
+        <h1>SFMC Custom Scripts Installer 2</h1>
         <p>Created by <a href="https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/" target="_blank">Mateusz Bartkowiak</a>. Reach out with bugs and requests.</p>
         <script runat="server">
         //  NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
@@ -73,7 +73,7 @@
                     createDataExtensionsFromConfig(cnf);
                     createQueriesFromConfig(cnf);
                 }
-                //createObjectFromDefinition(cnf.automationDefinition, 'Automation');
+                createObjectFromDefinition(cnf.automationDefinition, 'Automation');
             }
         }
     
@@ -661,7 +661,7 @@
             config.automationDefinition.CustomerKey = config.prefix + 'AUTOMATION' + config.mid + config.ver;
             config.automationDefinition.CategoryID = config.folders.automationFolder;
             config.automationDefinition.AutomationType = 'scheduled';
-            config.automationDefinition.AutomationTasks = [
+            /*config.automationDefinition.AutomationTasks = [
                 {
                     Description: 'Stores run Watermark',
                     Activities: [
@@ -738,7 +738,7 @@
                         }
                     ]
                 }
-            ];
+            ];*/
             return config;
         }
     
