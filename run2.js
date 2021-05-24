@@ -839,8 +839,7 @@
     
             return output;
         }
-        Write('HERE');
-        Write(Platform.Request.GetFormField('formName'));
+    
         if (!Platform.Request.GetFormField('formName')) {
         </script>
         <!--ACCORDION START-->
@@ -872,22 +871,7 @@
                         </ul>
                         <p>Choose Business Units to install this automation:</p>
                         <form method="POST">
-                            <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="XXXXX" id="businessUnit1" name="businessUnit1">
-                                    <label class="form-check-label" for="businessUnit1">
-                                    Gain Capital - 098812312
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="XXXXXX" id="businessUnit2" name="businessUnit2">
-                                    <label class="form-check-label" for="businessUnit2">
-                                    CityIndex - 098812312
-                                    </label>
-                                </div>
-                            </div>
+                            <ctrl:var name=businessUnitPickerHtml />
                             <input type="hidden" name="formName" value="dataViewsBacklog">
                             <button type="submit" id="submitDataViewsBacklog" class="btn btn-primary">Install</button>
                         </form>
