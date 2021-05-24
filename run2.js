@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>SFMC Custom Scripts Installer</h1>
+        <h1>SFMC Custom Scripts Install</h1>
         <p>Created by <a href="https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/" target="_blank">Mateusz Bartkowiak</a>. Reach out with bugs and requests.</p>
         <script runat="server">
         //  NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
@@ -74,13 +74,12 @@
                     var cnf = initializeConfigDataViewsBacklog(businessUnitsSelected[i]);
                     createDataExtensionsFromConfig(cnf);
                     createQueriesFromConfig(cnf);
-                }
-
-                try {
-                    createAutomationFromDefinition(cnf.automationDefinition);
-                }
-                catch(e) {
-                    Write(Stringify(e));
+                    try {
+                        createAutomationFromDefinition(cnf.automationDefinition);
+                    }
+                    catch(e) {
+                        Write(Stringify(e));
+                    }
                 }
             }
         }
@@ -969,7 +968,7 @@
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <p>This script creates automation on selected Business Units that backlogs the Data Views tables periodically.</p>
-                        <p>Below list of will be backloged:</p>
+                        <p>Below list of Data Views will be backloged:</p>
                         <ul>
                             <li><a href="https://help.salesforce.com/articleView?id=sf.mc_as_data_view_bounce.htm&type=5" target="_blank">_Bounce</a></li>
                             <li><a href="https://help.salesforce.com/articleView?id=mc_as_data_view_businessunitunsubscribes.htm&type=5"  target="_blank">_BusinessUnitUnsubscribes</a></li>
