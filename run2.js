@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>SFMC Custom Scripts Installer 3</h1>
+        <h1>SFMC Custom Scripts Installer 4</h1>
         <p>Created by <a href="https://www.linkedin.com/in/mateusz-bartkowiak-9b865165/" target="_blank">Mateusz Bartkowiak</a>. Reach out with bugs and requests.</p>
         <script runat="server">
         //  NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
@@ -50,6 +50,7 @@
         // License:     MIT
         Platform.Load('Core', '1.1.5');
         var proxy = new Script.Util.WSProxy();
+        var retrievableObjectData = {};
     
         if (!Platform.Request.GetFormField('formName')) {
             var businessUnitPickerHtml = buildHtmlBusinessUnitPicker();
@@ -666,7 +667,10 @@
                     Description: 'Stores run Watermark',
                     Activities: [
                         { 
-                            ActivityObject : config.queryDefinitions.RunWatermark, 
+                            ActivityObject : {
+                                Name: config.queryDefinitions.RunWatermark.Name,
+                                CustomerKey: config.queryDefinitions.RunWatermark.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.RunWatermark.Name
                         }
                     ]
@@ -815,6 +819,10 @@
                 Write('<br/><span class="badge bg-warning text-dark">' + type + ' already exists: ' + definition.Name + '</span>');
             }
         }
+
+        function createAutomationFromDefinition(definition) {
+
+        }
     
     
         function createDataExtensionsFromConfig(config) {
@@ -842,7 +850,7 @@
     
         function checkIfObjectExists(name, type) {
             var output = false;
-            var props = ['Name', 'CustomerKey'];
+            var props = ['Name', 'CustomerKey', 'ObjectID'];
     
             var filter = {
                 LeftOperand: { Property: 'Name', SimpleOperator: 'equals', Value: name },
@@ -853,6 +861,8 @@
             var lookup = proxy.retrieve(type, props, filter);
     
             if (lookup.Results.length > 0) {
+
+                retrievableObjectData[name] = lookup.Results[0].ObjectID;
                 output = true;
             }
     
