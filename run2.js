@@ -681,24 +681,40 @@
                             Name: config.queryDefinitions.RunWatermark.Name
                         }
                     ]
-                }/*,
+                },
                 {
                     Description: 'Sent, Click, Open, Bounce',
                     Activities: [
                         { 
-                            ActivityObject : config.queryDefinitions.Sent, 
+                            ActivityObject : {
+                            	__Type__: 'QueryDefinition',
+                            	Name: config.queryDefinitions.Sent.Name,
+                                CustomerKey: config.queryDefinitions.Sent.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.Sent.Name
                         },
                         { 
-                            ActivityObject : config.queryDefinitions.Click, 
+                            ActivityObject : {
+                            	__Type__: 'QueryDefinition',
+                            	Name: config.queryDefinitions.Click.Name,
+                                CustomerKey: config.queryDefinitions.Click.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.Click.Name
                         },
                         { 
-                            ActivityObject : config.queryDefinitions.Open, 
+                            ActivityObject : {
+                            	__Type__: 'QueryDefinition',
+                            	Name: config.queryDefinitions.Open.Name,
+                                CustomerKey: config.queryDefinitions.Open.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.Open.Name
                         },
                         { 
-                            ActivityObject : config.queryDefinitions.Bounce, 
+                            ActivityObject : {
+                            	__Type__: 'QueryDefinition',
+                            	Name: config.queryDefinitions.Bounce.Name,
+                                CustomerKey: config.queryDefinitions.Bounce.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.Bounce.Name
                         }
                     ]
@@ -707,23 +723,43 @@
                     Description: 'Complaint, Unsubscribes, Subscribers, ListSubscribers, BusinessUnitUnsubscribes',
                     Activities: [
                         { 
-                            ActivityObject : config.queryDefinitions.Complaint, 
+                            ActivityObject : {
+                                __Type__: 'QueryDefinition',
+                                Name: config.queryDefinitions.Complaint.Name,
+                                CustomerKey: config.queryDefinitions.Complaint.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.Complaint.Name
                         },
                         { 
-                            ActivityObject : config.queryDefinitions.Unsubscribe, 
+                            ActivityObject : {
+                                __Type__: 'QueryDefinition',
+                                Name: config.queryDefinitions.Unsubscribe.Name,
+                                CustomerKey: config.queryDefinitions.Unsubscribe.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.Unsubscribe.Name
                         },
                         { 
-                            ActivityObject : config.queryDefinitions.Subscribers, 
+                            ActivityObject : {
+                                __Type__: 'QueryDefinition',
+                                Name: config.queryDefinitions.Subscribers.Name,
+                                CustomerKey: config.queryDefinitions.Subscribers.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.Subscribers.Name
                         },
                         { 
-                            ActivityObject : config.queryDefinitions.ListSubscribers, 
+                            ActivityObject : {
+                                __Type__: 'QueryDefinition',
+                                Name: config.queryDefinitions.ListSubscribers.Name,
+                                CustomerKey: config.queryDefinitions.ListSubscribers.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.ListSubscribers.Name
                         },
                         { 
-                            ActivityObject : config.queryDefinitions.BusinessUnitUnsubscribes, 
+                            ActivityObject : {
+                                __Type__: 'QueryDefinition',
+                                Name: config.queryDefinitions.BusinessUnitUnsubscribes.Name,
+                                CustomerKey: config.queryDefinitions.BusinessUnitUnsubscribes.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.BusinessUnitUnsubscribes.Name
                         }
                     ]
@@ -732,23 +768,39 @@
                     Description: 'Job, Journey, JourneyActivit, SMSMessageTracking',
                     Activities: [
                         { 
-                            ActivityObject : config.queryDefinitions.Job, 
+                            ActivityObject : {
+                                __Type__: 'QueryDefinition',
+                                Name: config.queryDefinitions.Job.Name,
+                                CustomerKey: config.queryDefinitions.Job.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.Job.Name
                         },
                         { 
-                            ActivityObject : config.queryDefinitions.Journey, 
+                            ActivityObject : {
+                                __Type__: 'QueryDefinition',
+                                Name: config.queryDefinitions.Journey.Name,
+                                CustomerKey: config.queryDefinitions.Journey.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.Journey.Name
                         },
                         { 
-                            ActivityObject : config.queryDefinitions.JourneyActivity, 
+                            ActivityObject : {
+                                __Type__: 'QueryDefinition',
+                                Name: config.queryDefinitions.JourneyActivity.Name,
+                                CustomerKey: config.queryDefinitions.JourneyActivity.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.JourneyActivity.Name
                         },
                         { 
-                            ActivityObject : config.queryDefinitions.SMSMessageTracking, 
+                            ActivityObject : {
+                                __Type__: 'QueryDefinition',
+                                Name: config.queryDefinitions.SMSMessageTracking.Name,
+                                CustomerKey: config.queryDefinitions.SMSMessageTracking.CustomerKey
+                            }, 
                             Name: config.queryDefinitions.SMSMessageTracking.Name
                         }
                     ]
-                }*/
+                }
             ];
             return config;
         }
@@ -825,6 +877,9 @@
                         addWatermarkRecord(definition.CustomerKey);
                     }
                     Write('<br/><span class="badge bg-success">' + type + ' created: ' + definition.Name + '</span>');
+                }
+                else if (type == 'Automation' && !obj.Results[0].NewObjectID) {
+                    Write('<br/><span class="badge bg-warning text-dark">' + type + ' already exists: ' + definition.Name + '</span>');
                 }
                 else {
                     Write('<br/><span class="badge bg-danger">' + type + ' failed to create: ' + definition.Name + '</span><pre>' + Stringify(obj) + '</pre>');
