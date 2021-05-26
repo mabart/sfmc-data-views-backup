@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SFMC Custom Scripts Installer</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <style>
         
     </style>
@@ -1138,9 +1139,9 @@
                         <p>This script creates two Data Extensions, Automation and optionaly - 2 SSJS Activities. To create SSJS Activies:</p>
                         <ul>
                             <li>You can either provide your REST API Credentials, that way we will create these scripts automatically and add them to automation
-                                <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-warning-sign"></span> Warning</button>
+                                <button type="button" class="btn btn-warning"><i class="bi bi-exclamation-triangle-fill"></i> Warning</button>
                             </li>
-                            <li>We can print the scripts into the results page and you can copy that code and create these scripts yourself in SFMC UI and add them to automation yourself</li>
+                            <li>We can print the code for the activiries into the results page, you can copy that code and create these scripts yourself in SFMC UI. You will also need to add them to automation yourself</li>
                         </ul>
                     </div>
                 </div>
