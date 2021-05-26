@@ -1139,7 +1139,7 @@
                         <p>This script creates two Data Extensions, Automation and optionaly - 2 SSJS Activities. To create SSJS Activies:</p>
                         <ul>
                             <li>You can either provide your REST API Credentials, that way we will create these scripts automatically and add them to automation
-                                <button type="button" class="btn btn-warning"><i class="bi bi-exclamation-triangle-fill"></i> Warning</button>
+                                <button title="<em>Tooltip</em> <u>with</u> <b>HTML</b>" type="button" data-bs-toggle="tooltip" data-bs-placement="top" class="btn btn-warning"><i class="bi bi-exclamation-triangle-fill"></i> Warning</button>
                             </li>
                             <li>We can print the code for the activiries into the results page, you can copy that code and create these scripts yourself in SFMC UI. You will also need to add them to automation yourself</li>
                         </ul>
