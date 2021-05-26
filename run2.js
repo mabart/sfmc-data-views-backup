@@ -53,7 +53,8 @@
         var retrievableObjectData = {};
     
         if (!Platform.Request.GetFormField('formName')) {
-            var businessUnitPickerHtml = buildHtmlBusinessUnitPicker();
+            var businessUnitPickerHtml1 = buildHtmlBusinessUnitPicker();
+            var businessUnitPickerHtml2 = buildHtmlBusinessUnitPicker();
         }
     
         if (Platform.Request.GetFormField('formName') == 'dataViewsBacklog') {
@@ -63,6 +64,10 @@
             catch(e) {
                 Write(Stingify(e));
             }
+        }
+
+        if (Platform.Request.GetFormField('formName') == 'buAndUsersInventory') {
+  
         }
     
         function runConfigDataViewsBacklogInstall() {
@@ -82,6 +87,50 @@
                     }
                 }
             }
+        }
+
+
+
+        function initializeConfigBuAndUsersInventory(bu, subdomain, clientId, clientSecret) {
+            var config = {};
+            config.ver = '_0_0_1';
+            config.mid = '_' + bu;
+            config.prefix = 'INV_';
+            config.subdomain = subdomain;
+            config.clientId = clientId;
+            config.clientSecret = clientSecret;
+
+            config.folders = {};
+            config.folders.deFolder = getOrCreateFolder(config.prefix + 'DE' + config.mid + config.ver, 'dataextension');
+
+            config.deDefinitions = {};
+            config.deDefinitions.BusinessUnits = {
+                Name: config.prefix + 'BusinessUnits' + config.mid + config.ver, 
+                CustomerKey: config.prefix + 'BusinessUnits' + config.mid + config.ver, 
+                CategoryID: config.folders.deFolder,
+                Fields : [
+                    { Name:'MID', FieldType:'Number', IsPrimaryKey:true, IsRequired: true},
+                    { Name:'Name', FieldType:'Text', MaxLength:255},
+                    { Name:'ParentID', FieldType:'Number' },
+                    { Name:'AddedDate', FieldType:'Date', DefaultValue: 'Now()'}
+                ]
+            };
+            config.deDefinitions.Users = {
+                Name: config.prefix + 'Users' + config.mid + config.ver, 
+                CustomerKey: config.prefix + 'Users' + config.mid + config.ver, 
+                CategoryID: config.folders.deFolder,
+                Fields : [
+                    { Name:'AccountUserID', FieldType:'Number', IsPrimaryKey:true, IsRequired: true},
+                    { Name:'Name', FieldType:'Text', MaxLength:255},
+                    { Name:'Email', FieldType:'EmailAddress'},
+                    { Name:'UserId', FieldType:'Text', MaxLength:50},
+                    { Name:'Id', FieldType:'Text', MaxLength:50},
+                    { Name:'IsLocked', FieldType:'Boolean'},
+                    { Name:'ActiveFlag', FieldType:'Boolean'},
+                    { Name:'SalesForceID', FieldType:'Text', MaxLength:50},
+                    { Name:'AddedDate', FieldType:'Date', DefaultValue: 'Now()'}
+                ]
+            };
         }
     
         function initializeConfigDataViewsBacklog(bu) {
@@ -253,7 +302,6 @@
                     { Name:'ResolveLinksWithCurrentData', FieldType:'Boolean', IsRequired: true },
                     { Name:'EmailSendDefinition', FieldType:'Text', MaxLength:50 },
                     { Name:'TriggererSendDefinitionObjectID', FieldType:'Text', MaxLength:50 }
-    
                 ] 
             };
             config.deDefinitions.Journey = {
@@ -470,9 +518,8 @@
                 ] 
             };
     
-    
             config.queryDefinitions = {};
-    
+
             config.queryDefinitions.Bounce = {
                 Name: config.prefix + 'Bounce' + config.mid + config.ver,
                 CustomerKey: config.prefix + 'Bounce' + config.mid + config.ver,
@@ -485,7 +532,7 @@
                 },
                 QueryText: 'SELECT DISTINCT\nNEWID() as GUID,\nb.AccountID,\nb.OYBAccountID,\nb.JobID,\nb.ListID,\nb.BatchID,\nb.SubscriberID,\nb.SubscriberKey,\nb.EventDate,\nb.IsUnique,\nb.Domain,\nb.BounceCategoryID,\nb.BounceCategory,\nb.BounceSubcategoryID,\nb.BounceSubcategory,\nb.BounceTypeID,\nb.BounceType,\nb.SMTPBounceReason,\nb.SMTPMessage,\nb.SMTPCode,\nb.TriggererSendDefinitionObjectID,\nb.TriggeredSendCustomerKey\nFROM (\n\tSELECT DISTINCT\n\tROW_NUMBER() OVER(ORDER BY x.[RunTimestamp] DESC) as RowNumber,\n\tx.[RunTimestamp]\n\tFROM [' + config.deDefinitions.RunWatermark.Name + '] x\n) lts\nJOIN (\n\tSELECT DISTINCT\n\tROW_NUMBER() OVER(ORDER BY y.[RunTimestamp] DESC) as RowNumber,\n\ty.[RunTimestamp]\n\tFROM [' + config.deDefinitions.RunWatermark.Name + '] y\n) slts ON \n\tslts.RowNumber = 2\nJOIN _Bounce b\n\tON (b.EventDate > slts.[RunTimestamp] AND b.EventDate <= lts.[RunTimestamp])\nWHERE lts.RowNumber = 1'
             }
-    
+
             config.queryDefinitions.BusinessUnitUnsubscribes = {
                 Name: config.prefix + 'BusinessUnitUnsubscribes' + config.mid + config.ver,
                 CustomerKey: config.prefix + 'BusinessUnitUnsubscribes' + config.mid + config.ver,
@@ -498,7 +545,7 @@
                 },
                 QueryText: 'SELECT DISTINCT\nNEWID() AS GUID,\nb.BusinessUnitId,\nb.SubscriberId,\nb.SubscriberKey,\nb.UnsubDateUTC,\nb.UnsubReason\nFROM (\n\tSELECT DISTINCT\n\tROW_NUMBER() OVER(ORDER BY x.[RunTimestampUTC] DESC) as RowNumber,\n\tx.[RunTimestampUTC]\n\tFROM [' + config.deDefinitions.RunWatermark.Name + '] x\n) lts\nJOIN (\n\tSELECT DISTINCT\n\tROW_NUMBER() OVER(ORDER BY y.[RunTimestampUTC] DESC) as RowNumber,\n\ty.[RunTimestampUTC]\n\tFROM [' + config.deDefinitions.RunWatermark.Name + '] y\n) slts ON \n\tslts.RowNumber = 2\nJOIN _BusinessUnitUnsubscribes b\n\tON (b.UnsubDateUTC > slts.[RunTimestampUTC] AND b.UnsubDateUTC <= lts.[RunTimestampUTC])\nWHERE lts.RowNumber = 1'
             }
-    
+
             config.queryDefinitions.Click = {
                 Name: config.prefix + 'Click' + config.mid + config.ver,
                 CustomerKey: config.prefix + 'Click' + config.mid + config.ver,
@@ -511,7 +558,7 @@
                 },
                 QueryText: 'SELECT DISTINCT\nNEWID() as GUID,\nc.AccountID,\nc.OYBAccountID,\nc.JobID,\nc.ListID,\nc.BatchID,\nc.SubscriberID,\nc.SubscriberKey,\nc.EventDate,\nc.Domain,\nc.URL,\nc.LinkName,\nc.LinkContent,\nc.IsUnique,\nc.TriggererSendDefinitionObjectID,\nc.TriggeredSendCustomerKey\nFROM (\n\tSELECT DISTINCT\n\tROW_NUMBER() OVER(ORDER BY x.[RunTimestamp] DESC) as RowNumber,\n\tx.[RunTimestamp]\n\tFROM [' + config.deDefinitions.RunWatermark.Name + '] x\n) lts\nJOIN (\n\tSELECT DISTINCT\n\tROW_NUMBER() OVER(ORDER BY y.[RunTimestamp] DESC) as RowNumber,\n\ty.[RunTimestamp]\n\tFROM [' + config.deDefinitions.RunWatermark.Name + '] y\n) slts ON \n\tslts.RowNumber = 2\nJOIN _Click c\n\tON (c.EventDate > slts.[RunTimestamp] AND c.EventDate <= lts.[RunTimestamp])\nWHERE lts.RowNumber = 1'
             }
-    
+
             config.queryDefinitions.Complaint = {
                 Name: config.prefix + 'Complaint' + config.mid + config.ver,
                 CustomerKey: config.prefix + 'Complaint' + config.mid + config.ver,
@@ -524,10 +571,10 @@
                 },
                 QueryText: 'SELECT DISTINCT\tNEWID() as GUID,\tc.AccountID,\tc.OYBAccountID,\tc.JobID,\tc.ListID,\tc.BatchID,\tc.SubscriberID,\tc.SubscriberKey,\tc.EventDate,\tc.IsUnique,\tc.Domain\tFROM (\t\tSELECT DISTINCT\t\tROW_NUMBER() OVER(ORDER BY x.[RunTimestamp] DESC) as RowNumber,\t\tx.[RunTimestamp]\t\tFROM [' + config.deDefinitions.RunWatermark.Name + '] x\t) lts\tJOIN (\t\tSELECT DISTINCT\t\tROW_NUMBER() OVER(ORDER BY y.[RunTimestamp] DESC) as RowNumber,\t\ty.[RunTimestamp]\t\tFROM [' + config.deDefinitions.RunWatermark.Name + '] y\t) slts ON \t\tslts.RowNumber = 2\tJOIN _Complaint c\t\tON (c.EventDate > slts.[RunTimestamp] AND c.EventDate <= lts.[RunTimestamp])\tWHERE lts.RowNumber = 1'
             }
-    
+
             //config.queryDefinitions.Coupon
             //config.queryDefinitions.FTAF
-    
+
             config.queryDefinitions.Job = {
                 Name: config.prefix + 'Job' + config.mid + config.ver,
                 CustomerKey: config.prefix + 'Job' + config.mid + config.ver,
@@ -540,7 +587,7 @@
                 },
                 QueryText: 'SELECT\nj.JobId,\nj.EmailID,\nj.AccountID,\nj.AccountUserID,\nj.FromName,\nj.FromEmail,\nj.SchedTime,\nj.PickupTime,\nj.DeliveredTime,\nj.EventID,\nj.IsMultipart,\nj.JobType,\nj.JobStatus,\nj.ModifiedBy,\nj.ModifiedDate,\nj.EmailName,\nj.EmailSubject,\nj.IsWrapped,\nj.TestEmailAddr,\nj.Category,\nj.BccEmail,\nj.OriginalSchedTime,\nj.CreatedDate,\nj.CharacterSet,\nj.IPAddress,\nj.SalesForceTotalSubscriberCount,\nj.SalesForceErrorSubscriberCount,\nj.SendType,\nj.DynamicEmailSubject,\nj.SuppressTracking,\nj.SendClassificationType,\nj.SendClassification,\nj.ResolveLinksWithCurrentData,\nj.EmailSendDefinition,\nj.DeduplicateByEmail,\nj.TriggererSendDefinitionObjectID,\nj.TriggeredSendCustomerKey\nFROM (\n\tSELECT DISTINCT\n\tROW_NUMBER() OVER(ORDER BY x.[RunTimestamp] DESC) as RowNumber,\n\tx.[RunTimestamp]\n\tFROM [' + config.deDefinitions.RunWatermark.Name + '] x\n) lts\nJOIN (\n\tSELECT DISTINCT\n\tROW_NUMBER() OVER(ORDER BY y.[RunTimestamp] DESC) as RowNumber,\n\ty.[RunTimestamp]\n\tFROM [' + config.deDefinitions.RunWatermark.Name + '] y\n) slts ON \n\tslts.RowNumber = 2\nJOIN _Job j\n\tON (j.ModifiedDate > slts.[RunTimestamp] AND j.ModifiedDate <= lts.[RunTimestamp])\n\tOR (j.CreatedDate > slts.[RunTimestamp] AND j.CreatedDate <= lts.[RunTimestamp])\n\tOR (j.OriginalSchedTime > slts.[RunTimestamp] AND j.OriginalSchedTime <= lts.[RunTimestamp])\nWHERE lts.RowNumber = 1'
             }
-    
+
             config.queryDefinitions.Journey = {
                 Name: config.prefix + 'Journey' + config.mid + config.ver,
                 CustomerKey: config.prefix + 'Journey' + config.mid + config.ver,
@@ -553,8 +600,7 @@
                 },
                 QueryText: 'SELECT DISTINCT\nj.VersionId,\nj.JourneyId,\nj.JourneyName,\nj.VersionNumber,\nj.CreatedDate,\nj.LastPublishedDate,\nj.ModifiedDate,\nj.JourneyStatus\nFROM (\n\tSELECT DISTINCT\n\tROW_NUMBER() OVER(ORDER BY x.[RunTimestamp] DESC) as RowNumber,\n\tx.[RunTimestamp]\n\tFROM [' + config.deDefinitions.RunWatermark.Name + '] x\n) lts\nJOIN (\n\tSELECT DISTINCT\n\tROW_NUMBER() OVER(ORDER BY y.[RunTimestamp] DESC) as RowNumber,\n\ty.[RunTimestamp]\n\tFROM [' + config.deDefinitions.RunWatermark.Name + '] y\n) slts ON \n\tslts.RowNumber = 2\nJOIN _Journey j\n\tON (j.ModifiedDate > slts.[RunTimestamp] AND j.ModifiedDate <= lts.[RunTimestamp])\n\tOR (j.CreatedDate > slts.[RunTimestamp] AND j.CreatedDate <= lts.[RunTimestamp])\n\tOR (j.LastPublishedDate > slts.[RunTimestamp] AND j.LastPublishedDate <= lts.[RunTimestamp])\nWHERE lts.RowNumber = 1'
             }
-    
-    
+
             config.queryDefinitions.JourneyActivity = {
                 Name: config.prefix + 'JourneyActivity' + config.mid + config.ver,
                 CustomerKey: config.prefix + 'JourneyActivity' + config.mid + config.ver,
@@ -567,7 +613,7 @@
                 },
                 QueryText: 'SELECT DISTINCT\nj.VersionId,\nj.ActivityId,\nj.ActivityName,\nj.ActivityExternalKey,\nj.JourneyActivityObjectID,\nj.ActivityType\nFROM _JourneyActivity j\nWHERE NOT EXISTS (\n\tSELECT x.ActivityId FROM [' + config.deDefinitions.JourneyActivity.Name + '] x WHERE j.ActivityId = x.ActivityId\n)'
             }
-    
+
             config.queryDefinitions.ListSubscribers = {
                 Name: config.prefix + 'ListSubscribers' + config.mid + config.ver,
                 CustomerKey: config.prefix + 'ListSubscribers' + config.mid + config.ver,
@@ -593,7 +639,7 @@
                 },
                 QueryText: 'SELECT DISTINCT\nNEWID() as GUID,\no.AccountID,\no.OYBAccountID,\no.JobID,\no.ListID,\no.BatchID,\no.SubscriberID,\no.SubscriberKey,\no.EventDate,\no.Domain,\no.IsUnique,\no.TriggererSendDefinitionObjectID,\no.TriggeredSendCustomerKey\nFROM (\n\tSELECT DISTINCT\n\tROW_NUMBER() OVER(ORDER BY x.[RunTimestamp] DESC) as RowNumber,\n\tx.[RunTimestamp]\n\tFROM [' + config.deDefinitions.RunWatermark.Name + '] x\n) lts\nJOIN (\n\tSELECT DISTINCT\n\tROW_NUMBER() OVER(ORDER BY y.[RunTimestamp] DESC) as RowNumber,\n\ty.[RunTimestamp]\n\tFROM [' + config.deDefinitions.RunWatermark.Name + '] y\n) slts ON \n\tslts.RowNumber = 2\nJOIN _Open o\n\tON (o.EventDate > slts.[RunTimestamp] AND o.EventDate <= lts.[RunTimestamp])\nWHERE lts.RowNumber = 1'
             }
-    
+
             config.queryDefinitions.Sent = {
                 Name: config.prefix + 'Sent' + config.mid + config.ver,
                 CustomerKey: config.prefix + 'Sent' + config.mid + config.ver,
@@ -633,10 +679,7 @@
                 QueryText: 'SELECT DISTINCT\ns.SubscriberId,\ns.DateUndeliverable,\ns.DateJoined,\ns.DateUnsubscribed,\ns.Domain,\ns.EmailAddress,\ns.BounceCount,\ns.SubscriberKey,\ns.SubscriberType,\ns.Status,\ns.Locale\nFROM _Subscribers s\nLEFT JOIN [' + config.deDefinitions.Subscribers.Name + '] dts\n\tON s.SubscriberId = dts.SubscriberId\nWHERE\n(dts.SubscriberId IS NULL)\nOR (s.EmailAddress != dts.EmailAddress)\nOR (s.Status != dts.Status)\nOR (s.Locale != dts.Locale)\nOR (s.BounceCount != dts.BounceCount)\nOR (s.SubscriberType != dts.SubscriberType)\nOR (s.DateUndeliverable > dts.DateUndeliverable)\nOR (s.DateUndeliverable IS NOT NULL AND dts.DateUndeliverable IS NULL)\nOR (s.DateJoined > dts.DateJoined)\nOR (s.DateJoined IS NOT NULL AND dts.DateJoined IS NULL)\nOR (s.DateUnsubscribed > dts.DateUnsubscribed)\nOR (s.DateUnsubscribed IS NOT NULL AND dts.DateUnsubscribed IS NULL)'
             }
     
-    
             //config.queryDefinitions.SurveyResponse
-    
-    
             config.queryDefinitions.Unsubscribe = {
                 Name: config.prefix + 'Unsubscribe' + config.mid + config.ver,
                 CustomerKey: config.prefix + 'Unsubscribe' + config.mid + config.ver,
@@ -968,12 +1011,13 @@
     
         function buildHtmlBusinessUnitPicker() {
             var output = '';
+            var r = Platform.Function.GUID();
             var businessUnits = getAllBusinessUnits();
             for (var mid in businessUnits) {
                 output += '<div class="mb-3">';
                 output += '    <div class="form-check">';
-                output += '        <input class="form-check-input" type="checkbox" value="' + mid + '" id="businessUnit' + mid + '" name="businessUnit' + mid +'">';
-                output += '        <label class="form-check-label" for="businessUnit' + mid + '">';
+                output += '        <input class="form-check-input" type="checkbox" value="' + mid + '" id="businessUnit' + mid + r + '" name="businessUnit' + mid +'">';
+                output += '        <label class="form-check-label" for="businessUnit' + mid + r + '">';
                 output += '        ' + businessUnits[mid] + ' - ' + mid;
                 output += '        </label>';
                 output += '    </div>';
@@ -1011,6 +1055,39 @@
     
             return output;
         }
+
+
+        function getRestToken(mid, subdomain, clientId, clientSecret) {
+            var url = 'https://' + subdomain + '.auth.marketingcloudapis.com/v2/token/v2/token';
+            if (typeof mid == 'String') {
+                mid = parseInt(mid);
+            }
+            var payload = {
+                grant_type: 'client_credentials',
+                client_id: clientId,
+                client_secret: clientSecret,
+                account_id: mid
+            };
+            var postData = sendPostRequest(url, payload);
+            var token = postData.access_token;
+            return token;
+        }
+
+        function sendPostRequest(url, payload, token) {
+            var req = new Script.Util.HttpRequest(url);
+            req.emptyContentHandling = 0;
+            req.retries = 2;
+            req.continueOnError = false;
+            req.contentType = 'application/json';
+            req.method = 'POST';
+            if (token != null && token != undefined) {
+                req.setHeader('Authorization', 'Bearer ' + token);
+            }
+            req.postData = Stringify(payload);
+            var resp = req.send();
+            var output = Platform.Function.ParseJSON(String(resp.content));
+            return output;
+        }
     
         if (!Platform.Request.GetFormField('formName')) {
         </script>
@@ -1043,7 +1120,7 @@
                         </ul>
                         <p>Choose Business Units to install this automation:</p>
                         <form method="POST">
-                            <ctrl:var name=businessUnitPickerHtml />
+                            <ctrl:var name=businessUnitPickerHtml1 />
                             <input type="hidden" name="formName" value="dataViewsBacklog">
                             <button type="submit" id="submitDataViewsBacklog" class="btn btn-primary">Install</button>
                         </form>
@@ -1053,12 +1130,18 @@
             <!--<div class="accordion-item">
                 <h2 class="accordion-header" id="headingTwo">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Script 2
+                    Business Units and Users inventory Data Extensions
                     </button>
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                        <p>This script creates two Data Extensions, Automation and optionaly - 2 SSJS Activities. To create SSJS Activies:</p>
+                        <ul>
+                            <li>You can either provide your REST API Credentials, that way we will create these scripts automatically and add them to automation
+                                <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-warning-sign"></span> Warning</button>
+                            </li>
+                            <li>We can print the scripts into the results page and you can copy that code and create these scripts yourself in SFMC UI and add them to automation yourself</li>
+                        </ul>
                     </div>
                 </div>
             </div>
