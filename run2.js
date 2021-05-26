@@ -15,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script>
         //Initialize all tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'));
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         });
@@ -1143,7 +1143,7 @@
                         <p>This script creates two Data Extensions, Automation and optionaly - 2 SSJS Activities. To create SSJS Activies:</p>
                         <ul>
                             <li>You can either provide your REST API Credentials, that way we will create these scripts automatically and add them to automation
-                                <button title="<em>Tooltip</em> <u>with</u> <b>HTML</b>" type="button" data-bs-toggle="tooltip" data-bs-placement="top" class="btn btn-warning"><i class="bi bi-exclamation-triangle-fill"></i> Warning</button>
+                                <button title="<em>Tooltip</em> <u>with</u> <b>HTML</b>" type="button" data-toggle="tooltip" data-placement="top" class="btn btn-warning"><i class="bi bi-exclamation-triangle-fill"></i> Warning</button>
                             </li>
                             <li>We can print the code for the activiries into the results page, you can copy that code and create these scripts yourself in SFMC UI. You will also need to add them to automation yourself</li>
                         </ul>
