@@ -1151,11 +1151,21 @@
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <p>This script creates two Data Extensions, Automation and optionaly - 2 SSJS Activities. To create SSJS Activies:</p>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                You can either provide your REST API Credentials, that way we will create these scripts automatically and add them to automation
+                                <button title="We won't store your API key anywhere, but if you're not certain how to proceed, select option to create SSJS script yourself based on the code we will provide" type="button" data-toggle="tooltip" data-placement="top" class="btn btn-warning"><i class="bi bi-exclamation-triangle-fill"></i> Warning</button>
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                We can print the code for the activiries into the results page, you can copy that code and create these scripts yourself in SFMC UI. You will also need to add them to automation yourself
+                            </label>
+                          </div>
                         <ul>
-                            <li>You can either provide your REST API Credentials, that way we will create these scripts automatically and add them to automation
-                                <button title="<em>Tooltip</em> <u>with</u> <b>HTML</b>" type="button" data-toggle="tooltip" data-placement="top" class="btn btn-warning"><i class="bi bi-exclamation-triangle-fill"></i> Warning</button>
-                            </li>
-                            <li>We can print the code for the activiries into the results page, you can copy that code and create these scripts yourself in SFMC UI. You will also need to add them to automation yourself</li>
                         </ul>
                     </div>
                 </div>
